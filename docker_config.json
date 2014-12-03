@@ -1,0 +1,52 @@
+{
+  "tunnel":
+    {
+      "host":       "bastion.server.com",
+      "localPort":  "9999",
+      "remoteIp":   "10.0.222.21",
+      "remotePort": "5432"
+    },
+  "apps": [
+    {
+        "name": "bouncah",
+        "restore_database": {"name": "bouncah_development", "host": "docker_vm", "port": "5432", "user": "postgres"},
+        "dump_database":{"name": "bouncah_staging", "host": "127.0.0.1", "port": "9999", "user": "bouncah_staging"}
+    },
+    {
+        "name": "cronos",
+        "restore_database": {"name": "cronos_development", "host": "docker_vm", "port": "5432", "user": "postgres"},
+        "dump_database":{"name": "cronos_staging", "host": "127.0.0.1", "port": "9999", "user": "cronos_staging"}
+    },
+    {
+        "name": "icisstaff",
+        "restore_database": {"name": "icisstaff_development", "host": "docker_vm", "port": "5432", "user": "postgres"},
+        "dump_database":{"name": "icis_staging", "host": "127.0.0.1", "port": "9999", "user": "icis_staging"}
+    },
+    {
+        "name": "icispatients",
+        "restore_database": {"name": "icispatients_development", "host": "docker_vm", "port": "5432", "user": "postgres"},
+        "dump_database":{"name": "patients_staging", "host": "127.0.0.1", "port": "9999", "user": "patients_staging"}
+    },
+    {
+        "name": "salk",
+        "restore_database": {"name": "salk_development", "host": "docker_vm", "port": "5432", "user": "postgres"},
+        "dump_database":{"name": "salk_staging", "host": "127.0.0.1", "port": "9999", "user": "salk_staging"}
+    },
+    {
+        "name": "snowflake",
+        "restore_database": {"name": "snowflake_development", "host": "docker_vm", "port": "5432", "user": "postgres"},
+        "dump_database":{"name": "snowflake_staging", "host": "127.0.0.1", "port": "9999", "user": "snowflake_staging"},
+        "after_rake_tasks": ["default_apps:to_dev"]
+    },
+    {
+        "name": "patient_log_service",
+        "restore_database": {"name": "patient_log_service_development", "host": "docker_vm", "port": "5432", "user": "postgres"},
+        "dump_database":{"name": "patient_log_service_staging", "host": "127.0.0.1", "port": "9999", "user": "patient_log_service_staging"}
+    },
+    {
+        "name": "takotsubo",
+        "restore_database": {"name": "takotsubo_development", "host": "docker_vm", "port": "5432", "user": "postgres"},
+        "dump_database":{"name": "takotsubo_staging", "host": "127.0.0.1", "port": "9999", "user": "takotsubo_staging"}
+    }
+  ]
+}
