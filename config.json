@@ -1,0 +1,37 @@
+{
+  "tunnel":
+    {
+      "host":       "db.example.com",
+      "localPort":  "9999",
+      "remoteIp":   "10.0.222.21",
+      "remotePort": "5432"
+    },
+  "apps": [
+    {
+        "docker_app": false,
+        "name": "patientapp",
+        "restore_database": {"name": "patientapp_development", "host": "127.0.0.1", "port": "15432", "user": ""},
+        "dump_database":{"name": "patientapp_staging", "host": "127.0.0.1", "port": "9999", "user": "patientapp_staging"}
+    },
+    {
+        "docker_app": false,
+        "name": "oauthapp",
+        "restore_database": {"name": "oauthapp_development", "host": "127.0.0.1", "port": "15432", "user": ""},
+        "dump_database":{"name": "oauthapp_staging", "host": "127.0.0.1", "port": "9999", "user": "oauthapp_staging"}
+    },
+    {
+        "docker_app": false,
+        "name": "staffapp",
+        "restore_database": {"name": "staffapp_development", "host": "127.0.0.1", "port": "15432", "user": ""},
+        "dump_database":{"name": "staffapp_staging", "host": "127.0.0.1", "port": "9999", "user": "staffapp_staging"},
+        "after_rake_tasks": [
+          "es:delete_patients_index",
+          "es:index_patients",
+          "es:delete_tasks_index",
+          "es:index_tasks",
+          "es:delete_measurements_index",
+          "es:index_measurements"
+        ]
+    }
+  ]
+}
