@@ -14,7 +14,6 @@ type App struct {
 	Name            string   `json:"name"`
 	DumpDatabase    Database `json:"dump_database"`
 	RestoreDatabase Database `json:"restore_database"`
-	AfterRakeTasks  []string `json:"after_rake_tasks"`
 }
 
 type StderrError struct {
@@ -75,14 +74,6 @@ func userName() (string, error) {
 		return "", err
 	}
 	return usr.Username, nil
-}
-
-func userHomeDir() (string, error) {
-	usr, err := user.Current()
-	if err != nil {
-		return "", err
-	}
-	return usr.HomeDir, nil
 }
 
 func cmdRunner(cmd *exec.Cmd) (err error) {
