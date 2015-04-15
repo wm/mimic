@@ -58,6 +58,11 @@ func (app App) RestoreFromDump(passwd string) error {
 		fmt.Printf("[%s] createdb: %v\n", app, err)
 	}
 
+	err = app.RestoreDb().CreateExtensions()
+	if err != nil {
+		fmt.Printf("[%s] create extension: %v\n", app, err)
+	}
+
 	err = app.RestoreDb().Restore(fileName)
 	if err != nil {
 		return fmt.Errorf("RestoreDevDatabase: %v", err)

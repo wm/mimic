@@ -9,7 +9,7 @@
   "apps": [
     {
         "name": "bouncah",
-        "restore_database": {"name": "bouncah_development", "host": "127.0.0.1", "port": "15432", "user": ""},
+        "restore_database": {"name": "bouncah_development", "host": "127.0.0.1", "port": "15432", "extensions": ["hstore"], "user": ""},
         "dump_database":{"name": "bouncah_staging", "host": "127.0.0.1", "port": "9999", "user": "bouncah_staging"}
     },
     {

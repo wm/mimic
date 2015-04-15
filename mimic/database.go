@@ -8,14 +8,19 @@ import (
 )
 
 type Database struct {
-	DbName string `json:"name"`
-	DbHost string `json:"host"`
-	DbPort string `json:"port"`
-	DbUser string `json:"user"`
+	DbName       string   `json:"name"`
+	DbHost       string   `json:"host"`
+	DbPort       string   `json:"port"`
+	DbUser       string   `json:"user"`
+	DbExtensions []string `json:"extensions"`
 }
 
 func (d Database) Name() string {
 	return d.DbName
+}
+
+func (d Database) Extensions() []string {
+	return d.DbExtensions
 }
 
 func (d Database) Host() string {
@@ -89,6 +94,47 @@ func (d Database) Create() error {
 	)
 
 	return cmdRunner(cmd)
+}
+
+func (d Database) CreateExtensions() error {
+	fmt.Printf("[%s] Creating extensions %v\n", d.Name(), d.Extensions())
+	for _, extension := range d.Extensions() {
+		extensionCmd := fmt.Sprintf("create extension %s", extension)
+		fmt.Printf(
+			"[%v] %v %v %v %v %v %v %v %v %v '%v'\n",
+			d.Name(),
+			"psql",
+			"-h",
+			d.Host(),
+			"-p",
+			d.Port(),
+			"-U",
+			d.User(),
+			d.Name(),
+			"-c",
+			extensionCmd,
+		)
+
+		cmd := exec.Command(
+			"psql",
+			"-h",
+			d.Host(),
+			"-p",
+			d.Port(),
+			"-U",
+			d.User(),
+			d.Name(),
+			"-c",
+			extensionCmd,
+		)
+
+		err := cmdRunner(cmd)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 //Restore does a pg_restore to the app from the passed file.
